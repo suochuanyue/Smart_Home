@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings - Smart Home</title>
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .smart-home-container {
+      width: 100%;
+      height: 100vh;
+      min-height: 600px;
+      position: relative;
+      background-image: url('https://i.ibb.co/FQzN52D/a8eb083ca206e1bf424fa6364db88a24.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      overflow-y: auto;
+      font-family: system-ui, -apple-system, sans-serif;
+      padding: 20px 0;
+      padding-bottom: 140px; /* 为底部导航栏留更多空间 */
+    }
+
+    .settings-title {
+      text-align: Left;
+      color: white;
+      font-size: clamp(32px, 5vw, 48px);
+      font-weight: bold;
+      padding-top: 32px;
+      margin-bottom: 16px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      margin-left: 20px;
+    }
+
+    .content-wrapper {
+      width: 90%;
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(3px);
+      border-radius: 16px;
+      padding: clamp(15px, 3vw, 20px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      margin-bottom: 16px;
+    }
+
+    .card-title {
+      color: white;
+      font-size: clamp(16px, 2.5vw, 20px);
+      font-weight: 600;
+      margin-bottom: 12px;
+      white-space: nowrap;
+    }
+
+    .card-title-large {
+      font-size: clamp(22px, 4vw, 30px);
+      font-weight: bold;
+    }
+
+    .electricity-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 32px;
+      color: white;
+    }
+
+    .electricity-item {
+      font-style: italic;
+      font-size: clamp(14px, 2vw, 16px);
+      white-space: nowrap;
+    }
+
+    .electricity-item.full-width {
+      grid-column: span 2;
+    }
+
+    .two-column-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .left-column {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .indoor-info,
+    .weather-info {
+      color: white;
+      font-style: italic;
+    }
+
+    .indoor-info p,
+    .weather-info p {
+      margin-bottom: 8px;
+      font-size: clamp(12px, 1.8vw, 14px);
+    }
+
+    .weather-info p:first-of-type {
+      font-size: clamp(14px, 2vw, 16px);
+      margin-bottom: 4px;
+    }
+
+    .scene-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .scene-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+      min-height: 36px;
+    }
+
+    .scene-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .scene-label {
+      color: white;
+      font-size: clamp(12px, 1.8vw, 14px);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .radio-button {
+      width: 20px;
+      height: 20px;
+      border: 2px solid white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+      flex-shrink: 0;
+      margin-left: 10px;
+    }
+
+    .radio-button.selected {
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    .radio-button.selected .radio-button-inner {
+      display: block;
+    }
+
+    .logout-btn {
+      display: block;
+      margin: 0 auto 30px auto;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(12px);
+      border: none;
+      border-radius: 16px;
+      padding: clamp(15px, 3vw, 20px);
+      color: white;
+      font-size: clamp(24px, 5vw, 36px);
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .logout-btn:hover {
+      background: rgba(255, 255, 255, 0.4);
+    }
+
+    /* 底部导航栏 */
+    .bottom-nav {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      max-width: 500px;
+      width: calc(100% - 40px);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 12px 40px;
+      z-index: 9999;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(20px);
+      border-radius: 25px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.3s;
+      padding: 8px 12px;
+    }
+
+    .nav-icon {
+      width: 32px;
+      height: 32px;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      color: white;
+      transition: all 0.3s;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    }
+
+    .nav-label {
+      font-size: 13px;
+      color: white;
+      font-weight: 500;
+      transition: all 0.3s;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    .nav-item.active .nav-icon {
+      color: #00C7BE;
+      transform: scale(1.2);
+      filter: drop-shadow(0 3px 6px rgba(0, 199, 190, 0.4));
+    }
+
+    .nav-item.active .nav-label {
+      color: #00C7BE;
+      font-weight: 700;
+      text-shadow: 0 1px 3px rgba(0, 199, 190, 0.3);
+    }
+
+    .nav-item:hover .nav-icon {
+      transform: scale(1.25);
+    }
+
+    /* 手机端响应式设计 (小于768px) */
+    @media (max-width: 767px) {
+      .smart-home-container {
+        padding: 15px 0;
+        padding-bottom: 140px;
+      }
+
+      .settings-title {
+        padding-top: 20px;
+        margin-bottom: 12px;
+      }
+
+      .content-wrapper {
+        width: 95%;
+        padding: 0 10px;
+      }
+
+      .card {
+        margin-bottom: 12px;
+      }
+
+      .two-column-layout {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .left-column {
+        gap: 12px;
+      }
+
+      .electricity-grid {
+        gap: 6px 20px;
+      }
+
+      .scene-item {
+        padding: 10px;
+        min-height: 42px;
+      }
+
+      .scene-label {
+        font-size: 14px;
+      }
+
+      .radio-button {
+        width: 22px;
+        height: 22px;
+        margin-left: 8px;
+      }
+
+      .bottom-nav {
+        padding: 10px 20px;
+        bottom: 15px;
+        width: calc(100% - 30px);
+      }
+    }
+
+    /* 平板端优化 (768px - 1024px) */
+    @media (min-width: 768px) and (max-width: 1024px) {
+      .content-wrapper {
+        width: 92%;
+      }
+
+      .card {
+        padding: 18px;
+      }
+
+      .two-column-layout {
+        gap: 14px;
+      }
+    }
+
+    /* 超大屏幕优化 (大于1400px) */
+    @media (min-width: 1400px) {
+      /* 保持500px最大宽度 */
+    }
+  </style>
+</head>
+
+<body>
+  <div class="smart-home-container" id="smartHomeContainer">
+    <!-- Settings Title -->
+    <h1 class="settings-title">Settings</h1>
+
+    <!-- Main Content -->
+    <div class="content-wrapper">
+      <!-- Electricity Consumption -->
+      <div class="card">
+        <h2 class="card-title">Electricity Consumption</h2>
+        <div class="electricity-grid">
+          <div class="electricity-item">Air Conditioner: 2.5 kWh</div>
+          <div class="electricity-item">Light: 0.3 kWh</div>
+          <div class="electricity-item">Curtain: 0.1 kWh</div>
+          <div class="electricity-item">Dehumidifier: 0.8 kWh</div>
+          <div class="electricity-item full-width">Laundry machine: 1.2 kWh</div>
+        </div>
+      </div>
+
+      <!-- Two Column Layout -->
+      <div class="two-column-layout">
+        <!-- Left Column: Indoor + Weather -->
+        <div class="left-column">
+          <!-- Indoor -->
+          <div class="card">
+            <h2 class="card-title card-title-large">Indoor</h2>
+            <div class="indoor-info">
+              <p>indoor temperature: 26°</p>
+              <p>air humidity: 60%</p>
+              <p>air quality: Excellent</p>
+            </div>
+          </div>
+
+          <!-- Weather -->
+          <div class="card">
+            <h2 class="card-title card-title-large">Weather</h2>
+            <div class="weather-info">
+              <p>cloudy becoming fine</p>
+              <p>Suzhou, Jiangsu</p>
+              <p>Feb 16, Fri 13:14</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Scene Selection -->
+        <div class="card">
+          <h2 class="card-title">Scene selection</h2>
+          <div class="scene-container" id="sceneContainer">
+            <div class="scene-item" data-scene="home">
+              <span class="scene-label">Home mode</span>
+              <div class="radio-button selected">
+                <div class="radio-button-inner"></div>
+              </div>
+            </div>
+            <div class="scene-item" data-scene="leaving">
+              <span class="scene-label">Leaving mode</span>
+              <div class="radio-button">
+                <div class="radio-button-inner"></div>
+              </div>
+            </div>
+            <div class="scene-item" data-scene="sleep">
+              <span class="scene-label">Sleep mode</span>
+              <div class="radio-button">
+                <div class="radio-button-inner"></div>
+              </div>
+            </div>
+            <div class="scene-item" data-scene="closed">
+              <span class="scene-label">All closed</span>
+              <div class="radio-button">
+                <div class="radio-button-inner"></div>
+              </div>
+            </div>
+            <div class="scene-item" data-scene="on">
+              <span class="scene-label">All on</span>
+              <div class="radio-button">
+                <div class="radio-button-inner"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Log Out Button -->
+      <button class="logout-btn">Log Out</button>
+    </div>
+  </div>
+
+  <!-- 底部导航栏 -->
+  <div class="bottom-nav">
+    <a href="Home.html" class="nav-item">
+      <div class="nav-icon">
+        <i class="fas fa-home"></i>
+      </div>
+      <div class="nav-label">Home</div>
+    </a>
+    <a href="Setting.html" class="nav-item active">
+      <div class="nav-icon">
+        <i class="fas fa-cog"></i>
+      </div>
+      <div class="nav-label">Setting</div>
+    </a>
+    <a href="Shopping.html" class="nav-item">
+      <div class="nav-icon">
+        <i class="fas fa-shopping-cart"></i>
+      </div>
+      <div class="nav-label">Shop</div>
+    </a>
+  </div>
+
+  <script>
+    // Handle scene selection
+    const sceneItems = document.querySelectorAll('.scene-item');
+    sceneItems.forEach(item => {
+      item.addEventListener('click', function() {
+        // Remove selected class from all radio buttons
+        document.querySelectorAll('.radio-button').forEach(radio => {
+          radio.classList.remove('selected');
+        });
+        
+        // Add selected class to clicked item's radio button
+        this.querySelector('.radio-button').classList.add('selected');
+      });
+    });
+
+    // Handle logout button
+    document.querySelector('.logout-btn').addEventListener('click', function() {
+       window.location.href = 'Log_in.html';
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Smart Home</title>
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .login-container {
+      width: 100%;
+      height: 100vh;
+      background-image: url('https://i.ibb.co/FQzN52D/a8eb083ca206e1bf424fa6364db88a24.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .login-box {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      padding: 50px 40px;
+      width: 90%;
+      max-width: 420px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      animation: slideUp 0.6s ease-out;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .login-title {
+      color: white;
+      font-size: 42px;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 10px;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .login-subtitle {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 16px;
+      text-align: center;
+      margin-bottom: 40px;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .input-group {
+      margin-bottom: 25px;
+      position: relative;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 18px;
+      z-index: 1;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 16px 20px 16px 50px;
+      background: rgba(255, 255, 255, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 16px;
+      color: white;
+      font-size: 16px;
+      outline: none;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .input-field::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .input-field:focus {
+      background: rgba(255, 255, 255, 0.25);
+      border-color: rgba(255, 255, 255, 0.6);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(255, 255, 255, 0.2);
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255, 255, 255, 0.7);
+      cursor: pointer;
+      font-size: 18px;
+      transition: color 0.3s;
+      z-index: 1;
+    }
+
+    .password-toggle:hover {
+      color: white;
+    }
+
+    .login-button {
+      width: 100%;
+      padding: 18px;
+      background: rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(12px);
+      border: none;
+      border-radius: 16px;
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 15px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+
+    .login-button:hover {
+      background: rgba(255, 255, 255, 0.4);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .login-button:active {
+      transform: translateY(0);
+    }
+
+    .error-message {
+      color: #ff6b6b;
+      background: rgba(255, 107, 107, 0.15);
+      backdrop-filter: blur(10px);
+      padding: 12px;
+      border-radius: 12px;
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 14px;
+      display: none;
+      animation: shake 0.5s;
+      border: 1px solid rgba(255, 107, 107, 0.3);
+    }
+
+    .error-message.show {
+      display: block;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-10px); }
+      75% { transform: translateX(10px); }
+    }
+
+    .loading {
+      display: none;
+      gap: 6px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .loading.active {
+      display: flex;
+    }
+
+    .loading-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: white;
+      animation: bounce 1.4s infinite ease-in-out;
+    }
+
+    .loading-dot:nth-child(1) { animation-delay: -0.32s; }
+    .loading-dot:nth-child(2) { animation-delay: -0.16s; }
+
+    @keyframes bounce {
+      0%, 80%, 100% { transform: scale(0); opacity: 0.5; }
+      40% { transform: scale(1); opacity: 1; }
+    }
+
+    /* 响应式设计 */
+    @media (max-width: 480px) {
+      .login-box {
+        padding: 40px 30px;
+      }
+
+      .login-title {
+        font-size: 36px;
+      }
+
+      .login-subtitle {
+        font-size: 14px;
+      }
+
+      .input-field {
+        padding: 14px 18px 14px 45px;
+        font-size: 15px;
+      }
+
+      .login-button {
+        padding: 16px;
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="login-container">
+    <div class="login-box">
+      <h1 class="login-title">Welcome</h1>
+      <p class="login-subtitle">Sign in to your smart home</p>
+
+      <div class="error-message" id="errorMessage">
+        Invalid username or password
+      </div>
+
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <div class="input-group">
+          <i class="fas fa-user input-icon"></i>
+          <input 
+            type="text" 
+            class="input-field" 
+            id="username" 
+            placeholder="Username" 
+            required
+            autocomplete="username"
+          >
+        </div>
+
+        <div class="input-group">
+          <i class="fas fa-lock input-icon"></i>
+          <input 
+            type="password" 
+            class="input-field" 
+            id="password" 
+            placeholder="Password" 
+            required
+            autocomplete="current-password"
+          >
+          <i class="fas fa-eye password-toggle" id="passwordToggle" onclick="togglePassword()"></i>
+        </div>
+
+        <button type="submit" class="login-button">
+          Sign In
+        </button>
+
+        <div class="loading" id="loading">
+          <div class="loading-dot"></div>
+          <div class="loading-dot"></div>
+          <div class="loading-dot"></div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Toggle password visibility
+    function togglePassword() {
+      const passwordField = document.getElementById('password');
+      const toggleIcon = document.getElementById('passwordToggle');
+      
+      if (passwordField.type === 'password') {
+        passwordField.type = 'text';
+        toggleIcon.classList.remove('fa-eye');
+        toggleIcon.classList.add('fa-eye-slash');
+      } else {
+        passwordField.type = 'password';
+        toggleIcon.classList.remove('fa-eye-slash');
+        toggleIcon.classList.add('fa-eye');
+      }
+    }
+
+    // Handle login
+    function handleLogin(event) {
+      event.preventDefault();
+      
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const errorMessage = document.getElementById('errorMessage');
+      const loading = document.getElementById('loading');
+      const loginButton = document.querySelector('.login-button');
+
+      // Hide error message
+      errorMessage.classList.remove('show');
+
+      // Show loading
+      loading.classList.add('active');
+      loginButton.disabled = true;
+      loginButton.style.opacity = '0.6';
+
+      // Simulate authentication delay
+      setTimeout(() => {
+        // Simple validation - you can customize this
+        if (username && password) {
+          // Login successful - redirect to Price.html
+          window.location.href = 'Price.html';
+        } else {
+          // Login failed
+          loading.classList.remove('active');
+          loginButton.disabled = false;
+          loginButton.style.opacity = '1';
+          errorMessage.classList.add('show');
+        }
+      }, 800);
+    }
+
+    // Press Enter to submit
+    document.getElementById('username').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        document.getElementById('password').focus();
+      }
+    });
+
+    document.getElementById('password').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        handleLogin(e);
+      }
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Pricing Plan</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        /* 科技感背景动画 - 移除 */
+        body::before {
+            display: none;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0);
+            }
+            100% {
+                transform: translate(50px, 50px);
+            }
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+            margin: 20px 0;
+        }
+
+        /* 头部区域 */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header-subtitle {
+            font-size: 18px;
+            color: #4A90E2;
+            font-weight: 600;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .header-title {
+            font-size: 42px;
+            font-weight: 700;
+            color: #4A90E2;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header-description {
+            font-size: 16px;
+            color: #999;
+            line-height: 1.6;
+            max-width: 450px;
+            margin: 0 auto;
+        }
+
+        /* CTA按钮 */
+        .cta-button {
+            background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 50px;
+            text-align: center;
+            margin-bottom: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(74, 144, 226, 0.3);
+            animation: fadeInUp 0.8s ease 0.2s both;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .cta-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(74, 144, 226, 0.4);
+        }
+
+        .cta-main-text {
+            font-size: 24px;
+            font-weight: 700;
+            font-style: italic;
+            margin-bottom: 5px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-sub-text {
+            font-size: 18px;
+            font-style: italic;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 价格卡片 */
+        .pricing-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-height: calc(100vh - 500px);
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-right: 5px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* 隐藏滚动条但保持滚动功能 */
+        .pricing-list::-webkit-scrollbar {
+            width: 0;
+            background: transparent;
+        }
+
+        .pricing-list {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .pricing-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: linear-gradient(180deg, #4A90E2 0%, #357ABD 100%);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .pricing-card:hover::before {
+            transform: scaleY(1);
+        }
+
+        .pricing-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 25px rgba(74, 144, 226, 0.3);
+            background: rgba(255, 255, 255, 1);
+        }
+
+        .pricing-card:nth-child(1) {
+            animation: fadeInUp 0.8s ease 0.3s both;
+        }
+
+        .pricing-card:nth-child(2) {
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+
+        .pricing-card:nth-child(3) {
+            animation: fadeInUp 0.8s ease 0.5s both;
+        }
+
+        .pricing-card:nth-child(4) {
+            animation: fadeInUp 0.8s ease 0.6s both;
+        }
+
+        .pricing-left {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .plan-name {
+            font-size: 16px;
+            color: #666;
+            font-style: italic;
+        }
+
+        .plan-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: #000;
+        }
+
+        .plan-rate {
+            font-size: 18px;
+            color: #999;
+            font-style: italic;
+        }
+
+        /* 闪光效果 */
+        @keyframes shine {
+            0% {
+                left: -100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+
+        .pricing-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.3), 
+                transparent
+            );
+            animation: shine 3s infinite;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 480px) {
+            .header-title {
+                font-size: 32px;
+            }
+
+            .header-description {
+                font-size: 14px;
+            }
+
+            .cta-main-text {
+                font-size: 20px;
+            }
+
+            .cta-sub-text {
+                font-size: 16px;
+            }
+
+            .plan-price {
+                font-size: 18px;
+            }
+
+            .plan-rate {
+                font-size: 16px;
+            }
+
+            .pricing-list {
+                max-height: calc(100vh - 550px);
+                padding-bottom: 20px;
+            }
+        }
+
+        @media (max-height: 800px) {
+            .pricing-list {
+                max-height: 300px;
+                padding-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 头部 -->
+        <div class="header">
+            <div class="header-subtitle">List Price</div>
+            <h1 class="header-title">Our Pricing Plan</h1>
+            <p class="header-description">
+                We aim to provide a minimalist and convenient platform to make your communication with your device more comfortable
+            </p>
+        </div>
+
+        <!-- CTA按钮 -->
+        <div class="cta-button" onclick="window.location.href='../Home.html'">
+            <div class="cta-main-text">Start a 7-day free trial</div>
+            <div class="cta-sub-text">Then subscribe automatically</div>
+        </div>
+
+        <!-- 价格列表 -->
+        <div class="pricing-list">
+            <!-- Seven-day free trial -->
+            <div class="pricing-card">
+                <div class="pricing-left">
+                    <div class="plan-name">Seven-day free trial</div>
+                    <div class="plan-price">Then $5.99/week</div>
+                </div>
+                <div class="plan-rate">$5.99/week</div>
+            </div>
+
+            <!-- Weekly -->
+            <div class="pricing-card">
+                <div class="pricing-left">
+                    <div class="plan-name">Weekly</div>
+                    <div class="plan-price">$4.99/week</div>
+                </div>
+                <div class="plan-rate">$4.99/week</div>
+            </div>
+
+            <!-- Monthly -->
+            <div class="pricing-card">
+                <div class="pricing-left">
+                    <div class="plan-name">Monthly</div>
+                    <div class="plan-price">$7.99/month</div>
+                </div>
+                <div class="plan-rate">$1.99/week</div>
+            </div>
+
+            <!-- Yearly -->
+            <div class="pricing-card">
+                <div class="pricing-left">
+                    <div class="plan-name">Yearly</div>
+                    <div class="plan-price">$29.99/year</div>
+                </div>
+                <div class="plan-rate">$0.99/week</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

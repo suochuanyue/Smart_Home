@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Home Shopping</title>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-image: url('https://i.ibb.co/FQzN52D/a8eb083ca206e1bf424fa6364db88a24.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            background: transparent;
+            min-height: 100vh;
+        }
+
+        /* Header Section */
+        .header {
+            padding: 20px 20px 10px 20px;
+        }
+
+        .header-title {
+            font-size: 32px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 5px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-date {
+            font-size: 28px;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 300;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Featured Product */
+        .featured-product {
+            margin: 20px 20px 30px 20px;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+
+        .featured-product:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .featured-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #00C7BE;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .featured-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .featured-image {
+            width: 100%;
+            height: 280px;
+            background: linear-gradient(135deg, #8B7355 0%, #A0826D 100%);
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .featured-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Section Title */
+        .section-header {
+            padding: 0 20px;
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .section-title::after {
+            content: '>';
+            margin-left: 8px;
+            font-weight: 400;
+            flex-shrink: 0;
+        }
+
+        .section-subtitle {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.7);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Product List */
+        .product-list {
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding-bottom: 20px;
+        }
+
+        .product-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .product-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .product-item:active {
+            transform: scale(0.98);
+        }
+
+        .product-icon {
+            width: 80px;
+            height: 80px;
+            background: #2C2C2E;
+            border-radius: 20px;
+            margin-right: 15px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .product-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .product-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 4px;
+        }
+
+        .product-description {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .product-price {
+            font-size: 22px;
+            font-weight: 700;
+            color: white;
+            margin-left: 15px;
+            flex-shrink: 0;
+            line-height: 1;
+        }
+
+        /* See More Button */
+        .see-more {
+            margin: 25px 20px 30px 20px;
+            padding: 15px 20px;
+            text-align: left;
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: none;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .see-more:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .see-more::after {
+            content: '>';
+            margin-left: 8px;
+        }
+
+        /* Content padding for bottom nav */
+        .content-wrapper {
+            padding-bottom: 140px;
+        }
+
+        /* 底部导航栏 */
+        .bottom-nav {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            max-width: 480px;
+            width: calc(100% - 40px);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 12px 40px;
+            z-index: 9999;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s;
+            padding: 8px 12px;
+        }
+
+        .nav-icon {
+            width: 32px;
+            height: 32px;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: white;
+            transition: all 0.3s;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+
+        .nav-label {
+            font-size: 13px;
+            color: white;
+            font-weight: 500;
+            transition: all 0.3s;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-item.active .nav-icon {
+            color: #00C7BE;
+            transform: scale(1.2);
+            filter: drop-shadow(0 3px 6px rgba(0, 199, 190, 0.4));
+        }
+
+        .nav-item.active .nav-label {
+            color: #00C7BE;
+            font-weight: 700;
+            text-shadow: 0 1px 3px rgba(0, 199, 190, 0.3);
+        }
+
+        .nav-item:hover .nav-icon {
+            transform: scale(1.25);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 767px) {
+            .bottom-nav {
+                padding: 10px 20px;
+                bottom: 15px;
+                width: calc(100% - 30px);
+            }
+
+            .content-wrapper {
+                padding-bottom: 140px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="content-wrapper">
+            <!-- Header -->
+            <div class="header">
+                <div class="header-title">Shopping</div>
+                <div class="header-date">24 September</div>
+            </div>
+
+            <!-- Featured Product -->
+            <div class="featured-product"
+                onclick="window.location.href='https://detail.tmall.com/item.htm?ali_refid=a3_430673_1006%3A1105102464%3AH%3AdnGK4I14AFrjfwZ%2BFPdjQw%3D%3D%3A5cd91388e4d4681e45a7b29c737471b9&ali_trackid=282_5cd91388e4d4681e45a7b29c737471b9&id=750541846488&mi_id=0000cYhjdHMenghtNIwHBGb9ofuanVapq5CnQd4piJth9qg&mm_sceneid=1_0_35988635_0&priceTId=2101286017616397225435813e0901&skuId=5563822147385&spm=a21n57.sem.item.137&utparam=%7B%22aplus_abtest%22%3A%2206b9e9d65af34d6704b5248684a3563d%22%7D&xxc=ad_ztc'">
+                <div class="featured-label">NOW AVAILABLE</div>
+                <div class="featured-title">Smart sofa</div>
+                <div class="featured-image">
+                    <img src="https://i.ibb.co/BKB7sfpP/378405d025dfae4d125071a7c2fd7b59.png" alt="Smart Sofa">
+                </div>
+            </div>
+
+            <!-- Section Header -->
+            <div class="section-header">
+                <div class="section-title">20 HOT Smart Home This Week</div>
+                <div class="section-subtitle">Swipe left to see more</div>
+            </div>
+
+            <!-- Product List -->
+            <div class="product-list">
+                <!-- Product 1: Table Lamp -->
+                <a href="https://detail.tmall.com/item.htm?abbucket=17&fpChannel=101&fpChannelSig=aa1dcb61a8f0a543dfb24dd632c63248649ea4ac&id=583837470940&mi_id=00003mcFBMtc6yYc-Q8K5g4SiBzkvolYMbitTylPPjIiqP0&ns=1&priceTId=2147bfd817639812162214384e1b03&skuId=6108003674035&spm=a21n57.1.hoverItem.2&u_channel=bybtqdyh&umpChannel=bybtqdyh&utparam=%7B%22aplus_abtest%22%3A%2249913b97c0ff469786c3e776d46fe748%22%7D&xxc=taobaoSearch"
+                    class="product-item">
+                    <div class="product-icon">
+                        <img src="https://i.ibb.co/wk2hN4Y/210dc9e548fc110e71035aa841e4d569.jpg" alt="Table Lamp">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">Table Lamp</div>
+                        <div class="product-description">Remote control</div>
+                    </div>
+                    <div class="product-price">$199</div>
+                </a>
+
+                <!-- Product 2: Air Conditioner -->
+                <a href="https://detail.tmall.com/item.htm?ali_refid=a3_430582_1006%3A1103316883%3AH%3ADrFn5mQCR4IclDAJQxgSg0XYWQOLUZw1%3A0c7d8c8d76d13950313b792f178d98a4&ali_trackid=282_0c7d8c8d76d13950313b792f178d98a4&id=723682988483&mi_id=00004l3WvIweR_EAWWRdllci77KrFZndRKvcusZ57EtAUY8&mm_sceneid=1_0_13092455_0&priceTId=214781c917639815785558128e11a4&skuId=6093294723906&spm=a21n57.1.hoverItem.1&utparam=%7B%22aplus_abtest%22%3A%227a9942e643ae69ccdeb78c23a6eae842%22%7D&xxc=ad_ztc"
+                    class="product-item">
+                    <div class="product-icon">
+                        <img src="https://i.ibb.co/Xxthfsgh/e98f8a81b45255b56c48b3fec555663f.jpg" alt="Air Conditioner">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">Air Conditioner</div>
+                        <div class="product-description">Adjust temperature from the voice</div>
+                    </div>
+                    <div class="product-price">$599</div>
+                </a>
+
+                <!-- Product 3: Smart Monitor -->
+                <a href="https://detail.tmall.com/item.htm?abbucket=17&fpChannel=101&fpChannelSig=c0e7fd83be42b0fc0a966286a60baf5e89a4089a&id=550817944149&mi_id=0000Aw7YxaJBre5jtJR5UCfDpeOAu2C9dR7Qtj9wHyN0tA4&ns=1&priceTId=214781c917639816731975061e11a4&skuId=5323528960481&spm=a21n57.1.hoverItem.6&u_channel=bybtqdyh&umpChannel=bybtqdyh&utparam=%7B%22aplus_abtest%22%3A%22f102c5baba9bd53cba5046288d271525%22%7D&xxc=taobaoSearch"
+                    class="product-item">
+                    <div class="product-icon">
+                        <img src="https://i.ibb.co/bMzwQfc2/c9d37b043a1b4819f247878793f5f83a.jpg" alt="Smart Monitor">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">Smart Monitor</div>
+                        <div class="product-description">Tracking behavior</div>
+                    </div>
+                    <div class="product-price">$299</div>
+                </a>
+            </div>
+
+            <!-- See More Button -->
+            <button class="see-more" onclick="window.location.href='http://www.suochuanyue.com'">
+                SEE MORE
+            </button>
+        </div>
+
+        <!-- 底部导航栏 -->
+        <div class="bottom-nav">
+            <a href="Home.html" class="nav-item">
+                <div class="nav-icon">
+                    <i class="fas fa-home"></i>
+                </div>
+                <div class="nav-label">Home</div>
+            </a>
+            <a href="Setting.html" class="nav-item">
+                <div class="nav-icon">
+                    <i class="fas fa-cog"></i>
+                </div>
+                <div class="nav-label">Setting</div>
+            </a>
+            <a href="Shopping.html" class="nav-item active">
+                <div class="nav-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <div class="nav-label">Shop</div>
+            </a>
+        </div>
+    </div>
+</body>
+
+</html>
